@@ -294,5 +294,5 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
                 elements: sourceElements
             }
         ]
-    };
+    }; 
 });
