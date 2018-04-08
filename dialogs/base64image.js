@@ -178,19 +178,22 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
       
       {
 				type: "hbox",
+				widths: ["60%", "40%"],
 				children: [
 					{
             type: "text",
             id: "width",
             width: "200px",
             label: "Width of image in percentage:"
-          }
+					},
+					{
+						type:"html",
+						width: "100px",
+						style: "white-space: normal",
+						html: "<p>Please wait for image to load in the preview window before clicking 'OK'. </p>"
+					},
 				]
 			},
-      {
-        type:"html",
-        html: "<p>Please wait for image to load in the preview window before clicking 'OK'. </p>"
-      },
 			{
 				type: "html",
 				id: "preview",
