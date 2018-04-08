@@ -250,15 +250,31 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
 			/* Remove preview */
 			imgPreview.getElement().setHtml("");
 			
-			t = this, orgWidth = null, orgHeight = null, imgScal = 1, lock = true;
+			t = this, orgWidth = null;
 			
 			/* selected image or null */
 			selectedImg = editor.getSelection();
 			if(selectedImg) selectedImg = selectedImg.getSelectedElement();
-      if(!selectedImg || selectedImg.getName() !== "img") selectedImg = null;
-      
+			if(!selectedImg || selectedImg.getName() !== "img") selectedImg = null;
+			
       /* set default width of image */
-      t.setValueOf("tab-source", "width", "100");
+			t.setValueOf("tab-source", "width", "100");
+			
+			if(selectedImg) {
+				/* Set input values from selected image */
+				orgWidth = selectedImg.getAttribute("widthPercentage");
+				t.setValueOf("tab-source","width", orgWidth);
+
+				// reload preview
+				if(typeof(selectedImg.getAttribute("src")) == "string") {
+					if(selectedImg.getAttribute("src").indexOf("data:") === 0) {
+						imagePreview("base64");
+						imagePreviewLoad(selectedImg.getAttribute("src"));
+					} else {
+						t.setValueOf("tab-source", "url", selectedImg.getAttribute("src"));
+					}
+				}
+			}
 			
 		},
 		onOk : function(){
@@ -276,6 +292,7 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
       // Get the width
       var widthPercentage = t.getValueOf("tab-source", "width");
 			
+      newImg.setAttribute("widthPercentage", widthPercentage);
       newImg.setAttribute("style", `width:${widthPercentage}%;height:100%`);
 			
 			/* Insert new image */
